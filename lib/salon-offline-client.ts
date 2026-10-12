@@ -24,7 +24,7 @@ export async function retryCloud(){status.busy=true;emit();try{const result=awai
 export async function refreshStorage(){status.storage=await nativeCall('storage');emit();}
 export async function switchStorage(){await nativeCall('chooseStorage');await refreshStorage();}
 export async function useDefaultStorage(){await nativeCall('defaultStorage');await refreshStorage();}
-export async function initializeFromCloud(){const result=await cloud('/api/sync');const snapshot=result.snapshot as SyncSnapshot;await persist({format:1,base:snapshot,view:clone(snapshot.data),pending:[],lastSyncedAt:new Date().toISOString()});status.message='云端账本已下载，以后的操作先保存到本地，可手动双向同步';await refreshStorage();}
+export async function initializeFromCloud(){const result=await cloud('/api/sync');const snapshot=result.snapshot as SyncSnapshot;await persist({format:1,base:snapshot,view:clone(snapshot.data),pending:[],lastSyncedAt:new Date().toISOString()});status.message='已连接至云端，数据已准备好；记账先保存在手机，可手动同步';await refreshStorage();}
 export async function synchronize(){
  if(status.busy)return;status.busy=true;status.message='正在双向同步…';emit();
  try{
