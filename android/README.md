@@ -1,6 +1,6 @@
 # 千丝万缕安卓应用
 
-此目录是 `barbershop` 项目的安卓安装入口，应用名称为「千丝万缕」，安卓包名为 `com.barbershop.app`，版本为 `1.1.1`（versionCode 6）。界面随 APK 打包，使用系统 WebView 打开本地资源，不依赖 Chrome。业务先保存到本机加密账本，手动双向同步到独立 Cloudflare。
+此目录是 `barbershop` 项目的安卓安装入口，应用名称为「千丝万缕」，安卓包名为 `com.barbershop.app`，版本为 `1.1.2`（versionCode 7）。界面随 APK 打包，使用系统 WebView 打开本地资源，不依赖 Chrome。业务先保存到本机加密账本，手动双向同步到独立 Cloudflare。
 
 ## 构建
 
