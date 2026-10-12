@@ -1,6 +1,6 @@
 # 千丝万缕
 
-**理发店会员储值与划卡记账，开店时随手记，收工后方便核对。**
+**用于个人经营中的会员消费记账。**
 
 千丝万缕是一款面向理发店店主的会员管理应用，把会员登记、办卡充值、服务扣费和经营流水放在一起。顾客充值后，店主在每次理发、洗剪吹、染发或烫发结束时，从会员卡余额中划扣实际消费金额，随时查询剩余余额与历史记录，减少纸本登记和手工算账。
 
@@ -61,23 +61,25 @@
 
 ## 技术栈
 
-| 层级 | 技术 | 用途 |
-| --- | --- | --- |
-| 界面与业务 | React 19、TypeScript 5.9、Tailwind CSS 4、Lucide React | 共用会员、储值卡、流水和设置界面，适配手机与桌面布局。 |
-| Web 应用与构建 | Next.js App Router 结构、Vinext、Vite 8 | 构建浏览器管理端与 Cloudflare Worker；另用 Vite 打包 APK 内置离线页面。 |
-| Android 容器 | Java、Android 系统 WebView、Gradle / Android Gradle Plugin | 加载随 APK 打包的页面，通过原生桥接完成网络请求、文件保存和 CSV 导出，无需安装 Chrome。 |
-| 本机数据保护 | Android Keystore、AES-GCM、AtomicFile、系统文档目录选择器 | 加密保存完整账本和待同步队列，支持更换存放目录并保留设备内恢复副本。 |
-| 云端服务 | Cloudflare Workers、D1（SQLite）、Drizzle ORM | 在店主独立 Cloudflare 账号中运行业务 API、数据库与手动同步接口。 |
-| 认证与账务 | 加盐 PBKDF2、服务端 pepper、会话令牌摘要、整数分记账 | 校验店主账号；防止余额透支及同一操作重试重复入账，通过版本检查识别同步冲突。 |
-| 验证 | Node.js Test Runner、TypeScript、独立 Android 测试包 | 验证金额计算、数据库约束、会员规则、CSV、同步及原生加密存储。 |
+| 技术 | 版本 |
+| --- | --- |
+| React | 19.2.6 |
+| TypeScript | 5.9.3 |
+| Tailwind CSS | 4.2.1 |
+| Lucide React | 1.31.0 |
+| Next.js | 16.3.4 |
+| Vinext | 1.0.0-beta.5 |
+| Vite | 8.0.13 |
+| Java | 17 |
+| Gradle | 9.1.0 |
+| Android Gradle Plugin | 9.0.0 |
+| Drizzle ORM | 0.45.2 |
+| Wrangler | 4.92.0 |
+| Cloudflare Workers / D1 | 托管服务，无固定版本 |
 
 ## 系统适配
 
-| 使用方式 | 系统与要求 | 数据与使用方式 |
-| --- | --- | --- |
-| Android APK | **Android 6.0 及以上（API 23+）**；应用使用系统 WebView，目标 API 为 35。 | 推荐的手机使用方式；支持本机加密账本、离线操作及手动双向同步。最低版本依据构建配置，未逐个 Android 版本做实机验证。 |
-| 浏览器管理端 | Windows、macOS、Linux、Android、iOS 上的现代浏览器。 | 通过已部署的服务地址访问，以云端记账为主，需要联网；未逐一验证所有系统与浏览器组合。 |
-| iPhone / iPad | 通过浏览器访问。 | 暂无原生 iOS 安装包，不具备 Android 的本机加密账本机制。 |
+**Android 6.0 及以上（API 23+）。**
 
 ## 安装与使用
 
@@ -125,11 +127,12 @@ Android 构建另外需要 JDK 21、Gradle 9.1.0、Android SDK Platform 36、Bui
 
 ## 最新迭代
 
-| 日期 | 迭代 | 改动与验证状态 |
-| --- | --- | --- |
-| 2026-10-12 | [README 重写](docs/iterations/2026-10-12-readme-rewrite.md) | 重新整理作品截图、功能介绍、技术栈、系统适配、安装用法和迭代入口；此次仅更新文档。 |
-| 2026-10-12 | [Android 1.1.2 · versionCode 7](docs/iterations/2026-10-12-v1.1.2.md) | 云端管理员配置支持自定义用户名，设置中可输入账号与密码重新验证。30 项测试、类型检查、离线构建及原签名 Release 构建通过；手机未连接，未安装验证。新云库已创建，但建表、账号配置和部署切换仍待完成。 |
-| 2026-10-12 | [Android 1.1.1 · versionCode 6](docs/iterations/2026-10-12-v1.1.1.md) | 简化登录文案，保留已初始化手机的离线登录；已用原签名覆盖安装。 |
-| 2026-10-12 | [Android 1.1.0](docs/iterations/2026-10-12-v1.1.0.md) | 引入 APK 内置页面、本机加密账本和手动双向同步；单元、隔离同步 API、客户端队列及手机独立存储测试通过，已覆盖安装并启动。 |
+更新日期：2026-10-12。
 
-完整历史见 [CHANGELOG.md](CHANGELOG.md)，逐次需求、改动、测试、数据库迁移、部署与手机安装状态见 [迭代记录目录](docs/iterations/)。
+| 版本 / 更新 | 功能改动 |
+| --- | --- |
+| [1.1.2](docs/iterations/2026-10-12-v1.1.2.md) | 支持自定义店主账号，云端重新验证可输入账号和密码。 |
+| [1.1.0](docs/iterations/2026-10-12-v1.1.0.md) | 新增本机加密账本、离线记账和手动双向同步。 |
+| [会员规则](CHANGELOG.md#2026-10-12-会员机制更新) | 一人一卡，姓名或手机号二选一；支持删除与恢复会员。 |
+
+完整记录见 [CHANGELOG.md](CHANGELOG.md)。
