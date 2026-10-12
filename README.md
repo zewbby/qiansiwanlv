@@ -1,5 +1,7 @@
 # 千丝万缕（barbershop）
 
+源码仓库：[zewbby/qiansiwanlv](https://github.com/zewbby/qiansiwanlv)（私有）。每次迭代更新 [CHANGELOG.md](CHANGELOG.md) 及 `docs/iterations/`，完成验证后提交并推送。
+
 理发店店主管理端。支持会员档案、储值会员卡、充值与赠送、消费扣费、余额查询、流水撤销和 CSV 导出。不包含次卡。
 
 ## 使用
