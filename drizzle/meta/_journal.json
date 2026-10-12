@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791693372496,
+      "tag": "0000_melodic_energizer",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791769221650,
+      "tag": "0001_cold_the_twelve",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791777578767,
+      "tag": "0002_member_deletion",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1791777801199,
+      "tag": "0003_single_card_identifier",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1791780252164,
+      "tag": "0004_chubby_ken_ellis",
+      "breakpoints": true
+    }
+  ]
+}

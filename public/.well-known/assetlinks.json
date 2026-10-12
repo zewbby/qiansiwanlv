@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.barbershop.app",
+      "sha256_cert_fingerprints": ["E9:F2:97:CC:C5:9C:B7:1A:E2:45:30:78:3F:D9:5C:09:BF:5D:00:DD:2F:4A:CD:01:35:2A:DB:BF:65:3A:CF:15"]
+    }
+  }
+]

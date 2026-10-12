@@ -1,0 +1,9 @@
+"use client";
+import {useEffect,useState,type FormEvent} from "react";
+import {Scissors,ArrowRight,LoaderCircle} from "lucide-react";
+export default function LoginForm() {
+  const [username,setUsername]=useState(""),[password,setPassword]=useState(""),[error,setError]=useState(""),[busy,setBusy]=useState(false);
+  const [ready,setReady]=useState(false);useEffect(()=>setReady(true),[]);
+  async function submit(event:FormEvent) {event.preventDefault();if(busy)return;setBusy(true);setError("");try {const response=await fetch("/api/auth/login",{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,password})});const body=await response.json() as {error?:string};if(!response.ok)throw new Error(body.error||"登录失败");window.location.replace("/?source=android");}catch(e){setError(e instanceof Error?e.message:"连接失败，请重试");setBusy(false);}}
+  return <main className="salon-login"><div className="salon-login-card"><span className="salon-login-mark"><Scissors size={36} strokeWidth={2.5}/></span><h1>千丝万缕</h1><p>登录店主管理端</p><form method="post" action="/api/auth/login" onSubmit={submit}><label htmlFor="shop-username">账号</label><input id="shop-username" name="username" autoComplete="username" value={username} onChange={e=>setUsername(e.target.value)} required disabled={busy}/><label htmlFor="shop-password">密码</label><input id="shop-password" name="password" type="password" autoComplete="current-password" value={password} onChange={e=>setPassword(e.target.value)} required disabled={busy}/>{error&&<div role="alert" className="salon-login-error">{error}</div>}<button className="button primary" disabled={busy || !ready}>{busy?<LoaderCircle size={18}/>:<ArrowRight size={18}/>} {busy?"登录中…":"登录"}</button></form><small>会员与账目保存在云端</small></div></main>;
+}

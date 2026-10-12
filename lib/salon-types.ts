@@ -1,0 +1,7 @@
+export type Member = { id: string; name: string; phone: string; note: string; createdAt: string; deletedAt?: string | null };
+export type Card = { id: string; memberId: string; name: string; type: "stored"; cashBalanceCents: number; giftBalanceCents: number; balanceCents: number; status: "active"; version: number; createdAt: string };
+export type LedgerTransaction = { id: string; memberId: string; cardId: string; type: "recharge" | "consume" | "reversal"; amountCents: number; cashReceivedCents: number; giftCents: number; serviceSpendCents: number; cashDeltaCents: number; giftDeltaCents: number; balanceBeforeCents: number; balanceAfterCents: number; cardVersion: number; serviceName: string; note: string; reversedTransactionId: string | null; createdAt: string };
+export type Service = { id: string; name: string; priceCents: number; active: boolean; createdAt: string };
+export type ShopSettings = { shopName: string; phone: string; address: string; lowBalanceCents: number };
+export type Summary = { todayCashReceivedCents: number; todayServiceSpendCents: number; todayServices: number; todayNewMembers: number; totalBalanceCents: number; memberCount: number; weekReceipts: {date:string;cashReceivedCents:number}[] };
+export type SalonBootstrap = { user: {displayName: string; email: string}; settings: ShopSettings; members: Member[]; cards: Card[]; services: Service[]; transactions: LedgerTransaction[]; summary: Summary; serverTime: string };
