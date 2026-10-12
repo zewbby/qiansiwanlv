@@ -4,6 +4,20 @@
 
 理发店店主管理端。支持会员档案、储值会员卡、充值与赠送、消费扣费、余额查询、流水撤销和 CSV 导出。不包含次卡。
 
+## 应用展示
+
+以下截图来自 Android 内置界面的隔离演示账本，使用合成数据，不包含真实会员信息。
+
+<p align="center">
+  <img src="docs/images/workbench.jpg" alt="千丝万缕工作台" width="210" />
+  <img src="docs/images/members.jpg" alt="会员管理" width="210" />
+  <img src="docs/images/ledger.jpg" alt="经营流水" width="210" />
+</p>
+<p align="center">
+  <img src="docs/images/settings.jpg" alt="店铺设置、服务项目和数据存储" width="210" />
+  <img src="docs/images/login.jpg" alt="店主管理登录页" width="420" />
+</p>
+
 ## 使用
 
 1. 首次打开应用，使用店主管理账号登录；无需 ChatGPT 登录。
