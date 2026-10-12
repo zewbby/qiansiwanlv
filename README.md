@@ -1,188 +1,135 @@
-# 千丝万缕（barbershop）
+# 千丝万缕
 
-源码仓库：[zewbby/qiansiwanlv](https://github.com/zewbby/qiansiwanlv)（私有）。每次迭代更新 [CHANGELOG.md](CHANGELOG.md) 及 `docs/iterations/`，完成验证后提交并推送。
+**理发店会员储值与划卡记账，开店时随手记，收工后方便核对。**
 
-理发店店主管理端。支持会员档案、储值会员卡、充值与赠送、消费扣费、余额查询、流水撤销和 CSV 导出。不包含次卡。
+千丝万缕是一款面向理发店店主的会员管理应用，把会员登记、办卡充值、服务扣费和经营流水放在一起。顾客充值后，店主在每次理发、洗剪吹、染发或烫发结束时，从会员卡余额中划扣实际消费金额，随时查询剩余余额与历史记录，减少纸本登记和手工算账。
+
+采用简洁的黑白界面，主要提供 Android 应用，也保留浏览器管理入口。当前为单店店主管理端，同一账号管理同一家店。
+
+[应用展示](#应用展示) · [主要功能](#主要功能) · [技术栈](#技术栈) · [系统适配](#系统适配) · [安装与使用](#安装与使用) · [最新迭代](#最新迭代)
 
 ## 应用展示
 
-以下截图来自 Android 内置界面的隔离演示账本，使用合成数据，不包含真实会员信息。
+以下为 Android 1.1.1 内置界面的演示截图，使用本机隔离的合成账本，不包含真实会员资料或真实经营数据。当前源码版本为 **1.1.2（versionCode 7）**；截图中的账号仅用于展示，不代表可用的默认账号。点击图片可查看原图。
 
+<table>
+  <thead>
+    <tr>
+      <th align="center">工作台</th>
+      <th align="center">会员管理</th>
+      <th align="center">经营流水</th>
+      <th align="center">店铺设置</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" valign="top"><a href="docs/images/workbench.jpg"><img src="docs/images/workbench.jpg" alt="工作台：今日实收、划卡金额与快捷记账入口" width="180" /></a></td>
+      <td align="center" valign="top"><a href="docs/images/members.jpg"><img src="docs/images/members.jpg" alt="会员管理：查找会员、查看余额及已删除会员" width="180" /></a></td>
+      <td align="center" valign="top"><a href="docs/images/ledger.jpg"><img src="docs/images/ledger.jpg" alt="经营流水：按日期与类型筛选、撤销和导出记录" width="180" /></a></td>
+      <td align="center" valign="top"><a href="docs/images/settings.jpg"><img src="docs/images/settings.jpg" alt="店铺设置：店铺资料、低余额提醒与服务价格" width="180" /></a></td>
+    </tr>
+    <tr>
+      <td align="center">今日经营与快捷记账</td>
+      <td align="center">会员档案与卡内余额</td>
+      <td align="center">收款、消费与撤销</td>
+      <td align="center">店铺资料与服务项目</td>
+    </tr>
+  </tbody>
+</table>
+
+<p align="center"><strong>店主管理登录</strong></p>
 <p align="center">
-  <img src="docs/images/workbench.jpg" alt="千丝万缕工作台" width="210" />
-  <img src="docs/images/members.jpg" alt="会员管理" width="210" />
-  <img src="docs/images/ledger.jpg" alt="经营流水" width="210" />
-</p>
-<p align="center">
-  <img src="docs/images/settings.jpg" alt="店铺设置、服务项目和数据存储" width="210" />
-  <img src="docs/images/login.jpg" alt="店主管理登录页" width="420" />
+  <a href="docs/images/login.jpg"><img src="docs/images/login.jpg" alt="千丝万缕店主管理登录界面" width="640" /></a>
 </p>
 
-## 使用
+## 主要功能
 
-1. 首次打开应用，使用店主管理账号登录；无需 ChatGPT 登录。
-2. 在“设置”中填写店名，调整服务项目及价格。
-3. 新增会员并开卡，录入实际收款和赠送金额。
-4. 顾客消费时选择会员、会员卡及服务项目，核对金额后确认扣费。
-5. 错记账时在流水详情选择撤销并填写原因。原记录保留，并生成一笔反向流水。
+| 功能 | 可以做什么 |
+| --- | --- |
+| 会员登记 | 姓名或手机号二选一登记；按姓名、手机号或卡号查找会员。姓名允许重名，非空手机号不能重复。 |
+| 储值会员卡 | 一位会员一张卡，查询总余额、本金与赠送余额；已有卡直接充值或消费。不提供次卡。 |
+| 办卡与充值 | 分别记录实际收款和赠送金额，合计计入卡内余额，实收金额单独统计。 |
+| 划卡消费 | 选择会员及服务项目，核对实际扣款金额后提交；余额不足时拒绝扣费。 |
+| 经营概览 | 查看今日实收、划卡服务金额、服务笔数、新增会员和近期流水，关注低余额会员。 |
+| 流水核对 | 按日期及交易类型筛选，导出 CSV；错账可填写原因撤销，保留原记录并生成反向流水。 |
+| 会员删除与恢复 | 本金和赠送余额均为零才能删除；已删除会员可恢复，原卡号、资料和历史流水保留。 |
+| 店铺设置 | 维护店名、联系方式、地址、服务项目、价格及低余额提醒。 |
+| Android 离线记账 | 首次联网登录完成数据准备后，可断网登录、查询和记账，修改先保存到本机加密账本。 |
+| 手动双向同步 | 店主点击「双向同步」上传本机修改并下载云端最新账本；同步冲突保留待同步操作，交由店主核对。 |
 
-Android 应用显示名称为“千丝万缕”，安装包为交付目录中的 `qiansiwanlv.apk`，Android 应用 ID 为 `com.barbershop.app`。`android/` 是 Android 项目，Web 项目的 npm 包名为 `barbershop`。也可在手机 Chrome 中打开线上地址，选择“添加到主屏幕”。
+实收金额和划卡消费金额分别统计，避免把充值收款与后续卡内消费重复计为现金收入。撤销充值属于账务调整，实际退款由店主另行处理。
 
-## 云端数据
+## 技术栈
 
-生产会员、余额与流水已迁移到店主独立 Cloudflare 账号的 D1 数据库中。公开部署标识见 `cloud/owned.json`。店主已选择手机开启 VPN 使用 workers.dev 入口，并确认新版可登录管理首页；不保证中国大陆各运营商直连。登录页允许访问，会员数据和全部业务接口必须验证店主管理会话。服务端使用加盐 PBKDF2 与独立秘密 pepper 校验密码，只在数据库保存会话令牌摘要；Cookie 为 HttpOnly、生产环境 Secure，并限制登录尝试次数。金额以整数分记账；数据库在写入流水时同步调整余额，禁止余额透支，并通过操作识别码防止同一笔扣费重复入账。
+| 层级 | 技术 | 用途 |
+| --- | --- | --- |
+| 界面与业务 | React 19、TypeScript 5.9、Tailwind CSS 4、Lucide React | 共用会员、储值卡、流水和设置界面，适配手机与桌面布局。 |
+| Web 应用与构建 | Next.js App Router 结构、Vinext、Vite 8 | 构建浏览器管理端与 Cloudflare Worker；另用 Vite 打包 APK 内置离线页面。 |
+| Android 容器 | Java、Android 系统 WebView、Gradle / Android Gradle Plugin | 加载随 APK 打包的页面，通过原生桥接完成网络请求、文件保存和 CSV 导出，无需安装 Chrome。 |
+| 本机数据保护 | Android Keystore、AES-GCM、AtomicFile、系统文档目录选择器 | 加密保存完整账本和待同步队列，支持更换存放目录并保留设备内恢复副本。 |
+| 云端服务 | Cloudflare Workers、D1（SQLite）、Drizzle ORM | 在店主独立 Cloudflare 账号中运行业务 API、数据库与手动同步接口。 |
+| 认证与账务 | 加盐 PBKDF2、服务端 pepper、会话令牌摘要、整数分记账 | 校验店主账号；防止余额透支及同一操作重试重复入账，通过版本检查识别同步冲突。 |
+| 验证 | Node.js Test Runner、TypeScript、独立 Android 测试包 | 验证金额计算、数据库约束、会员规则、CSV、同步及原生加密存储。 |
 
-账号配置通过独立 Cloudflare Worker 的秘密环境变量提供：SALON_ADMIN_USERNAME、SALON_ADMIN_SALT、SALON_ADMIN_HASH、SALON_AUTH_PEPPER、SALON_OWNER_ID。密码和秘密值不在源码或安装包中。轮换密码哈希会使旧会话失效。当前为单店管理账号，所有已认证会话管理同一店铺。
+## 系统适配
 
-Android 1.1.2 将完整账本与待同步操作保存在本机加密文件，断网可以登录、查询和记账。联网后点「双向同步」才上传修改并下载最新云端账本；重试图标只检查连接。设置中可查看和更换本地存放目录，并保留设备内恢复副本。本地密钥绑定当前手机和应用，卸载或清除数据前必须先同步。网页版仍以云端保存为主，不支持这套原生离线文件机制。使用说明见 [离线与双向同步指南](cloud/offline-guide.md)。主动导出的 CSV 为明文报表。签名密钥、云服务凭证和本地预览数据库不会包含在源码交付中。
+| 使用方式 | 系统与要求 | 数据与使用方式 |
+| --- | --- | --- |
+| Android APK | **Android 6.0 及以上（API 23+）**；应用使用系统 WebView，目标 API 为 35。 | 推荐的手机使用方式；支持本机加密账本、离线操作及手动双向同步。最低版本依据构建配置，未逐个 Android 版本做实机验证。 |
+| 浏览器管理端 | Windows、macOS、Linux、Android、iOS 上的现代浏览器。 | 通过已部署的服务地址访问，以云端记账为主，需要联网；未逐一验证所有系统与浏览器组合。 |
+| iPhone / iPad | 通过浏览器访问。 | 暂无原生 iOS 安装包，不具备 Android 的本机加密账本机制。 |
 
-当前版本为单店店主管理端。充值记录中的“实收”与消费扣卡金额分别统计；撤销充值记录只做账务调整，实际退款需要店主另行完成。
+## 安装与使用
 
-## 本地开发
+### 安装 Android 应用
 
-使用 Node.js 22.13 及以上和 npm，执行 `npm ci` 后按下方流程构建、迁移本地预览数据库及启动预览。新版 npm 若提示依赖安装脚本被禁止，应先核验提示中的依赖来源与所需脚本，再按 npm 文档配置允许列表。不要将本地模拟登录配置带入生产环境。
+1. 向项目维护者获取原签名构建的 `qiansiwanlv.apk`。当前仓库未发布 GitHub Release 安装包；本机构建输出为 `outputs/qiansiwanlv.apk`，该目录不入库。
+2. 将 APK 传到手机，按系统提示允许当前安装来源安装应用，安装后打开「千丝万缕」。
+3. 更新已有应用时，使用同一包名和原签名直接**覆盖安装**，保留账本与待同步操作；不要先卸载或清除应用数据。
+4. 首次打开需联网，使用已配置的店主账号和密码登录，软件自动准备会员、余额、服务项目和流水。无需 ChatGPT 登录；部署与账号配置由维护者完成。
 
-`.openai/hosting.json` 保留原托管项目，旧服务现为只读。当前独立云部署标识保存在 `cloud/owned.json`；构建后使用 `scripts/prepare-owned-cloud.mjs` 生成 `work/owned-cloud/wrangler.json`，部署应明确使用该配置，避免误用构建中的原托管占位配置。此脚本默认只读，验证后再将 SALON_READ_ONLY 改为 false。数据库迁移在 `drizzle/` 中；已经上线的迁移不可修改，后续变更应增加新的迁移。
+应用包名为 `com.barbershop.app`。当前独立云服务使用 workers.dev 入口，店主按现有方案在手机开启 VPN 连接；不同网络的直连可用性未作保证。
 
-测试命令和构建说明见下方及 `tests/`。Android 构建需要 JDK 21、Android SDK 36 和 Gradle，具体见 `android/README.md`。
+### 日常使用
 
----
+1. **设置门店**：在「设置」填写店铺资料，配置洗剪吹、染发、烫发等服务项目及价格。
+2. **登记会员**：选择姓名或手机号登记，保存后办储值卡，填写实际收款及赠送金额。
+3. **充值与划卡**：已有卡直接充值；服务结束后选择会员和服务，核对金额，再确认扣费。
+4. **核对账目**：在工作台查看今日经营情况，在「流水」筛选记录；错账填写原因撤销，需要报表时导出 CSV。
+5. **同步账本**：Android 修改先保存在本机。联网后点击「双向同步」，建议营业结束时同步一次；连接重试图标只检查网络，联网本身不会自动同步。
 
-以下为托管运行环境的开发说明。
+多台手机管理同一家店时，各手机需手动同步才能看到彼此的新记录。遇到冲突，先查看核对方案，确认余额和实际业务；失败或冲突会保留本机待同步操作。建议同一笔业务只在一台手机录入。
 
-A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
+本机加密文件绑定当前手机与应用密钥，单独复制文件不能在另一台手机解密。换手机、卸载或清除数据前应先完成同步；CSV 为明文报表。完整操作说明见 [离线与双向同步指南](cloud/offline-guide.md)。
 
-## Prerequisites
+### 使用浏览器管理端
 
-- Node.js `>=22.13.0`
-- Portable: Windows, macOS, or Linux; no Bash required
-- Managed Linux: managed Linux runtime with Bash, `flock`, `curl`, `sha256sum`, and GNU `timeout`
-- Git is required only for publishing
+打开维护者提供的已部署服务地址，使用店主账号登录即可。Android Chrome 中可选择「添加到主屏幕」作为快捷入口；网页版仍以云端保存为主，不提供 APK 的原生离线存储能力。
 
-## Sites Lifecycle
+### 从源码开发与构建
 
-The Sites initializer copies the shared starter and selects managed-linux only when `SITES_MANAGED_LINUX_CONTAINER=1`; otherwise it selects portable. It saves the selection only in ignored `.sites-runtime/execution-profile.json`. Both profiles copy/configure first, then use the plugin's separate `install-dependencies.mjs` step to measure installation independently. Edit source under `app/` and follow the Sites skill for installation, preview, builds, and publishing.
-
-Run `node <plugin-root>/scripts/configure-execution-profile.mjs` only when the profile is unknown for the current checkout and environment. Profile changes do not alter tracked source or require reinstalling otherwise-valid dependencies; restart an existing preview to use the new selection. Do not commit or upload `.sites-runtime/`.
-
-This starter does not use `wrangler.jsonc`.
-
-`install:ci` runs `npm ci` once against the shared lockfile, disables parent-workspace discovery, and includes required dev/optional dependencies despite production/omit settings. Sharp defaults to prebuilt binaries unless explicitly configured otherwise. Do not overlap installers.
-
-- **Portable:** Preserve host HOME, npm cache, registry, proxy, temporary paths, retry/concurrency settings, and lifecycle-script policy. Use `--prefer-offline --no-audit --no-fund`.
-- **Managed Linux:** Use the existing project-local HOME/cache/tmp setup and Linux install lock, tarball preflight, and timeout. Restore the image-seeded npm cache only when its lockfile hash matches; retain network fallback. Builds keep their existing timeout. These helpers are not invoked by the portable profile.
-
-`scripts/sites-env.mjs` preserves the caller's HOME, npm cache, proxy, XDG, and temporary-directory configuration while defaulting Wrangler and Miniflare state to the checkout. If npm reports an unwritable cache, select a writable path with `npm_config_cache` for that install. The `dev` and `start` scripts also keep Wrangler logs inside the checkout. Generated `.sites-runtime/` and `.wrangler/` directories are disposable and ignored by Git.
-
-On portable, `npm run dev` uses `vinext dev` with HMR, starting at port 5173. Vinext records the running server in ignored `.vinext/` state, rejects an ordinary duplicate launch, and recovers stale state after a stopped process; exactly simultaneous starts can race. Pass `--port <port>` or `--hostname <host>` after `npm run dev --` when needed; keep portable previews on loopback.
-
-For browser QA on managed Linux, use `sites-preview start`. The project's dev script runs Vite and accepts the supervisor's `--host 0.0.0.0 --port 4173 --strictPort` arguments. The internal browser uses `http://terminal.local:4173/`; it is not a user-facing URL. The supervisor owns the preview lifecycle. The ignored local profile survives the supervisor's cleared process environment.
-
-The portable profile simulates ChatGPT sign-in only for loopback development requests. Visit `/signin-with-chatgpt?return_to=/` to sign in as `local_seedy` (`seedy@sites.test`, display name `Seedy`) and `/signout-with-chatgpt?return_to=/` to sign out. The development cookie preserves that identity across server restarts. Mock auth is disabled in the managed-linux profile and is not included in production builds; hosted authentication remains dispatch-owned.
-
-The Worker uses `vinext/server/fetch-handler`, including Vinext's config-aware image handling. After building, `npm start` runs that Worker locally through Wrangler on `127.0.0.1`, sharing `.wrangler/state` with dev preview and local D1 migrations; it does not deploy the site or simulate sign-in. Use the URL printed by the server. Pass `npm start -- --port <port>` to select a different built-preview port.
-
-Local previews use Miniflare's placeholder `Request.cf` metadata without a network lookup. Set `CLOUDFLARE_CF_FETCH_ENABLED=true` to opt into fetching preview metadata; this setting does not change hosted request metadata.
-
-Local tool usage metrics are disabled by default. Set `WRANGLER_SEND_METRICS=true` to opt in.
-
-## Included Shape
-
-- edit site code under `app/`
-- `app/chatgpt-auth.ts` provides optional dispatch-owned ChatGPT sign-in helpers
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
-- `@cloudflare/workers-types` provides Worker types; `cloudflare-env.d.ts` declares optional `DB`/`BUCKET` bindings—update these declarations if binding names change
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
-
-The user ID is stable for the same user on the same Site and different across Sites. Use it as the durable user key; use email and name for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive `oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty `name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by `oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
-```
-
-## Optional Dispatch-Owned ChatGPT Sign-In
-
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use the returned `userId` as the stable user key for user-owned records; do not use email as a durable identifier.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send anonymous visitors through Sign in with ChatGPT.
-- In a Server Component, start sign-in with `<a href={chatGPTSignInPath(returnTo)} target="_top">`. The auth helper module is server-only; do not import it into a Client Component.
-- Do not use `fetch`, XHR, a client-side router, or a framework link that can prefetch the sign-in route. SIWC must start as a top-level navigation.
-- Never request the AuthAPI authorization endpoint directly. The dispatch-owned `/signin-with-chatgpt` route must start the SIWC flow.
-- Use `chatGPTSignOutPath(returnTo)` for browser sign-out links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the OAuth cookies, and identity header injection. Do not implement app routes for those reserved paths. Routes that do not import and call the helper remain anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the Sites hosting platform's access policy controls for workspace-wide restrictions, or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Local D1 migrations
-
-For a D1-backed local preview, generate SQL with `npm run db:generate`. Build once through the Sites skill's build entrypoint (or `npm run build` for standalone use) to generate `dist/server/wrangler.json`, rebuilding if bindings change. From the project root, apply each pending migration in order:
+需要 **Node.js ≥ 22.13.0** 与 npm。在仓库根目录执行：
 
 ```sh
-node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_example.sql
+npm ci
+npm test
+npm run typecheck
+npm run build
 ```
 
-Replace the filename with the pending migration and `DB` with your D1 binding name if different. Use `.wrangler/state`, not `.wrangler/state/v3`; Wrangler adds the versioned directories. Do not replay migrations already applied locally. This updates only the preview database; publishing applies production migrations separately.
+本地开发运行 `npm run dev`；构建后的 Worker 预览运行 `npm start`。预览涉及数据库时，需要先初始化本机隔离的 D1 数据库，并按顺序执行尚未应用的 `drizzle/` 迁移；不能连接生产库写入演示数据。预览与生产都需相应的店主账号配置，依赖安装和构建不会自动生成可用账号。
 
-## Diagnostic Commands
+Android 构建另外需要 JDK 21、Gradle 9.1.0、Android SDK Platform 36、Build Tools 36.1.0 及原签名配置，具体命令见 [Android 构建说明](android/README.md)。APK 构建脚本会先构建内置离线界面，再输出安装包。
 
-- `npm run install:ci`: perform the one locked dependency install
-- `npm run dev`: start the Vite/Vinext development server
-- `npm run build`: build the deployable Sites artifact
-- `npm run start`: preview the built Worker locally with D1/R2 support
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+独立云服务配置、生产部署与加密备份见 [Cloudflare 部署说明](cloud/README.md)。生产数据库升级前先备份，仅执行新增迁移。签名私钥、密码、云端秘密值、真实会员数据和数据库备份不得提交到仓库。
 
-When using the Sites plugin, follow its skill instructions for installation, builds, and publishing. These npm commands remain available for standalone use.
+## 最新迭代
 
-The portable build runs Vinext directly without a host `timeout` command. The managed-linux build uses `scripts/build-verified.sh` and its existing `SITES_BUILD_TIMEOUT` setting.
+| 日期 | 迭代 | 改动与验证状态 |
+| --- | --- | --- |
+| 2026-10-12 | [README 重写](docs/iterations/2026-10-12-readme-rewrite.md) | 重新整理作品截图、功能介绍、技术栈、系统适配、安装用法和迭代入口；此次仅更新文档。 |
+| 2026-10-12 | [Android 1.1.2 · versionCode 7](docs/iterations/2026-10-12-v1.1.2.md) | 云端管理员配置支持自定义用户名，设置中可输入账号与密码重新验证。30 项测试、类型检查、离线构建及原签名 Release 构建通过；手机未连接，未安装验证。新云库已创建，但建表、账号配置和部署切换仍待完成。 |
+| 2026-10-12 | [Android 1.1.1 · versionCode 6](docs/iterations/2026-10-12-v1.1.1.md) | 简化登录文案，保留已初始化手机的离线登录；已用原签名覆盖安装。 |
+| 2026-10-12 | [Android 1.1.0](docs/iterations/2026-10-12-v1.1.0.md) | 引入 APK 内置页面、本机加密账本和手动双向同步；单元、隔离同步 API、客户端队列及手机独立存储测试通过，已覆盖安装并启动。 |
 
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
-
-
-
-## 会员管理（2026-10-12 更新）
-
-- 一位会员只能有一张储值会员卡。已有卡直接充值或划卡，不再重复办卡。
-- 新增会员先选择「用姓名登记」或「用手机号登记」，只填写所选信息。姓名允许重名；非空手机号不能重复登记。
-- 会员列表 → 查看 → 会员详情底部「删除会员」。余额为零才能删除；本金或赠送余额未结清时会拒绝删除。
-- 删除属于可恢复的停用：资料、卡号及历史流水保留，不改变收入与消费统计，不允许继续办卡、充值或划卡。
-- 会员列表选择「已删除」→ 查看 →「恢复会员」，恢复原资料与原卡。已删除会员的手机号仍保留，需要恢复该会员而不是重复登记。
-- 新增迁移依次为 `drizzle/0002_member_deletion.sql` 和 `drizzle/0003_single_card_identifier.sql`。在现有数据库执行前先备份，确认不存在一人多卡；不要重放旧迁移。
-- Android 1.1.2 使用随 APK 打包的离线页面，升级必须覆盖安装新版 APK。
+完整历史见 [CHANGELOG.md](CHANGELOG.md)，逐次需求、改动、测试、数据库迁移、部署与手机安装状态见 [迭代记录目录](docs/iterations/)。
