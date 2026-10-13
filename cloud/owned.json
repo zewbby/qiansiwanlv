@@ -1,12 +1,12 @@
 {
   "worker_name": "qiansiwanlv-admin",
   "account_id": "d64678f84fd94fd99cff21296a11546c",
-  "database_name": "qiansiwanlv-salon",
-  "database_id": "fdadf619-c62b-48f3-a0d5-d2670cc8a2b9",
+  "database_name": "babershopData",
+  "database_id": "b4b8bd11-3dbd-4393-91d5-38f3d992c146",
   "url": "https://qiansiwanlv-admin.qiansiwanlv-d64678.workers.dev",
   "direct_mobile_access": "direct access not verified; user confirmed home page with phone VPN enabled",
-  "android_version": "1.1.1",
-  "deployed_version": "ed4e1bbe-d205-47bb-8fcb-7316ee1d9f39",
+  "android_version": "1.1.2",
+  "deployed_version": "12607ba4-20f6-496d-9c58-fc214a4d474a",
   "schema_migrations_applied": [
     "0000_melodic_energizer.sql",
     "0001_cold_the_twelve.sql",
@@ -14,6 +14,6 @@
     "0003_single_card_identifier.sql",
     "0004_chubby_ken_ellis.sql"
   ],
-  "updated_at": "2026-10-12",
+  "updated_at": "2026-10-13",
   "storage_mode": "device-encrypted offline ledger with explicit bidirectional sync"
 }

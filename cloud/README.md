@@ -2,7 +2,7 @@
 
 `owned.json` 保存当前部署的公开标识，不含登录密码、云凭证或会员资料。当前使用 workers.dev 域名，店主已选择在手机上开启 VPN 使用；本项目不保证中国大陆各运营商直连。
 
-当前 Worker：qiansiwanlv-admin。数据库：qiansiwanlv-salon。生产会员数据属于店主独立 Cloudflare 账号。原 Sites 服务保持只读。
+当前 Worker：qiansiwanlv-admin。数据库：babershopData。旧库 qiansiwanlv-salon 已脱离 Worker 并加密备份，仍保留等待店主最终确认删除。生产服务属于店主独立 Cloudflare 账号；原 Sites 服务保持只读。
 
 ## 更新服务
 
@@ -25,7 +25,7 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js wh
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js deploy --config work/owned-cloud/wrangler.json
 ```
 
-保留既有数据库及秘密配置。不得重新创建数据库替换原数据，不得重放首次导入 SQL。已上线的 drizzle 迁移不可编辑，新增迁移需另行核验。
+常规更新继续使用 `babershopData` 和现有秘密配置；不要重放首次 schema 迁移或导入旧库数据。已上线的 drizzle 迁移不可编辑，新增迁移需另行核验。
 
 ## 备份
 
