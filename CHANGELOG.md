@@ -1,5 +1,12 @@
 # 迭代记录
 
+## 旧云数据库清理 — 2026-10-13
+
+- 按店主明确要求永久删除旧 Cloudflare D1 `qiansiwanlv-salon`；Cloudflare 确认删除成功，资源列表中已不存在。
+- 新库 `babershopData` 保持不变；核实 0000–0004 迁移均已应用，会员、卡和交易流水均为 0。
+- 旧库删除前的 DPAPI 加密备份仍在本机 `outputs/backups/`，未提交仓库；手机未连接，本次未安装 APK。
+- 详细记录见 [旧云数据库清理记录](docs/iterations/2026-10-13-old-cloud-cleanup.md)。
+
 ## README 移除安装说明 — 2026-10-12
 
 - 移除首页「安装与使用」整栏及对应导航，保留简洁的作品介绍。

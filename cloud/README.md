@@ -2,7 +2,7 @@
 
 `owned.json` 保存当前部署的公开标识，不含登录密码、云凭证或会员资料。当前使用 workers.dev 域名，店主已选择在手机上开启 VPN 使用；本项目不保证中国大陆各运营商直连。
 
-当前 Worker：qiansiwanlv-admin。数据库：babershopData。旧库 qiansiwanlv-salon 已脱离 Worker 并加密备份，仍保留等待店主最终确认删除。生产服务属于店主独立 Cloudflare 账号；原 Sites 服务保持只读。
+当前 Worker：qiansiwanlv-admin。数据库：babershopData。旧库 qiansiwanlv-salon 已于 2026-10-13 按店主要求永久删除；删除前生成的加密备份保存在店主本机 outputs/backups，不提交仓库。生产服务属于店主独立 Cloudflare 账号；原 Sites 服务保持只读。
 
 ## 更新服务
 
