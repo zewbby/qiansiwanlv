@@ -31,7 +31,7 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js de
 
 PowerShell 执行 `scripts/backup-owned-cloud.ps1 -NodeExe <node.exe完整路径>`，可导出并加密保存完整 SQL。该脚本使用 Windows 当前用户 DPAPI，需原 Windows 用户配置解密；它不是跨电脑便携备份。脚本不自动设置定时任务，不会覆盖云端数据库。完整数据的导出链接和明文 SQL 不应发给其他人。
 
-Android 包名 com.barbershop.app，当前源码版本 1.1.2。APK 更新必须沿用原签名；签名文件位于原工作区 work/android-signing，不在源码压缩包中。构建详见 android/README.md。
+Android 包名 com.barbershop.app，当前源码版本 1.1.3。APK 更新必须沿用原签名；签名文件位于原工作区 work/android-signing，不在源码压缩包中。构建详见 android/README.md。
 
 当前为单店管理。同一账号登录的家人看到并管理同一家店；家人各自经营独立店铺时需要额外实现店铺隔离。
 
@@ -43,7 +43,7 @@ Android 包名 com.barbershop.app，当前源码版本 1.1.2。APK 更新必须�
 - 删除属于可恢复的停用：资料、卡号及历史流水保留，不改变收入与消费统计，不允许继续办卡、充值或划卡。
 - 会员列表选择「已删除」→ 查看 →「恢复会员」，恢复原资料与原卡。已删除会员的手机号仍保留，需要恢复该会员而不是重复登记。
 - 新增迁移依次为 `drizzle/0002_member_deletion.sql` 和 `drizzle/0003_single_card_identifier.sql`。在现有数据库执行前先备份，确认不存在一人多卡；不要重放旧迁移。
-- Android 1.1.2 使用内置离线页面，本次需重新安装新版 APK，覆盖安装保留数据。
+- Android 1.1.3 使用内置离线页面，本次需重新安装新版 APK，覆盖安装保留数据。
 此独立云数据库已于 2026-10-12 应用 0000 至 0004 迁移。后续维护仅执行新增迁移，不要再次执行已应用文件。部署版本记录在 cloud/owned.json。
 
 ## 手动双向同步

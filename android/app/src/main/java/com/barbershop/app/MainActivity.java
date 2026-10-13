@@ -36,6 +36,7 @@ public final class MainActivity extends Activity {
   case "info":result=store.info();break;
   case "unlock":store.unlock(p.getString("username"),p.getString("password"));result=true;break;
   case "lock":store.lock();result=true;break;
+  case "setAutoLogin":store.setAutoLogin(p.getBoolean("enabled"));result=true;break;
   case "cloudLogin":{String username=p.getString("username"),password=p.getString("password");if(username.length()>100||password.length()>256)throw new IOException("账号或密码过长");JSONObject login=request("/api/auth/login","POST",new JSONObject().put("username",username).put("password",password),"");if(login.getInt("status")!=200)throw new IOException(login.getJSONObject("body").optString("error","云端登录失败"));String cookie=login.getString("cookie");if(!cookie.startsWith("salon_session="))throw new IOException("云端登录凭证缺失");JSONObject check=request("/api/sync/status","GET",null,cookie);if(check.getInt("status")!=200)throw new IOException("云端账号验证失败");store.authenticated(username,password,cookie,check.getJSONObject("body").getString("storeId"));result=true;break;}
   case "readVault":result=store.readVault();break;
   case "writeVault":result=store.writeVault(p.getJSONObject("vault"));break;
