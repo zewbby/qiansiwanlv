@@ -18,8 +18,8 @@ android {
         applicationId 'com.barbershop.app'
         minSdk 23
         targetSdk 35
-        versionCode 8
-        versionName '1.1.3'
+        versionCode 9
+        versionName '1.1.4'
     }
 
     signingConfigs {
